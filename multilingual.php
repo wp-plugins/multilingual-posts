@@ -4,7 +4,7 @@ Plugin Name: Multilingual posts
 Plugin URI: http://www.imluke.net/ideas/mlpost.htm
 Description: Add standard compliant language tag to post and page
 Version: 0.1
-Author: Luke
+Author: imluke
 Author URI: http://www.imluke.net
 */
 /*  Copyright 2007  Luke  (email : cobraloo@gmail.com)

@@ -1,10 +1,10 @@
 === Multilingual post ===
-Contributors: Luke
+Contributors: imluke
 Donate link: http://www.imluke.com/
-Tags: posts, language
+Tags: post, language
 Requires at least: 2.0
 Tested up to: 2.2
-Stable tag: 0.1
+Stable tag: 0.2
 
 This plugin add a standard compliant language tag to your post and page.
 
@@ -24,7 +24,7 @@ To add language tag, select it from the language box when you compose/edit a pos
 
 To use this plugin, you have to upload the plugin file, active it and edit your theme.
 
-1. First upload the folder "Multilingual" to plugin folder 
+1. First upload the folder "multilingual-posts" to plugin folder 
 2. Open file "languages.php" and select languages that might be used.
 	Simply uncomment the row that contains language you will use.
 3. Edit your theme.
