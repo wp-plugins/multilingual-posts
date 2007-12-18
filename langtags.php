@@ -5,7 +5,7 @@ These tags are compliant with RFC3066[http://www.ietf.org/rfc/rfc3066.txt]
 Select the language used in your blog by uncommenting that row
 */
 /*
-Last modified: 2007-05-27 by Luke
+Last modified: 2007-12-18 by Luke
 */
 
 $languages = array( 
@@ -297,6 +297,17 @@ $languages = array(
 //"x-mine"	=>	"My own lanugage",
 "zh-Hans"	=>	"Simplified Chinese",
 "zh-Hant"	=>	"Traditional Chineset",
+);
+
+
+//define language directions
+//please check W3C list of lauguage direction here(http://www.w3.org/International/questions/qa-scripts#directions) for therer right direction
+$lang_direction = array (
+	//specify language direction like this:
+	//"lang-tag" => "ltr" | "rtl" | "ttb" notice that ttb is not valid xhtml
+	//"en" => "ltr",
+	//"zh-Hans"	=>	"ltr",
+	//"zh-Hant"	=>	"ttb",
 );
 
 ?>

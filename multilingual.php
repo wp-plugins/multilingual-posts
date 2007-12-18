@@ -1,12 +1,13 @@
 <?php
 /*
-Plugin Name: Multilingual posts
-Plugin URI: http://www.imluke.net/ideas/mlpost.htm
-Description: Add standard compliant language tag to post and page
-Version: 0.1
-Author: imluke
-Author URI: http://www.imluke.net
-*/
+ *Plugin Name: Multilingual posts
+ *Plugin URI: http://www.imluke.net/ideas/mlpost.htm
+ *Description: Add standard compliant language tag to post and page
+ *Version: 0.2
+ *Author: imluke
+ *Author URI: http://www.imluke.net
+ */
+
 /*  Copyright 2007  Luke  (email : cobraloo@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
@@ -26,17 +27,22 @@ Author URI: http://www.imluke.net
 
 include "langtags.php";
 
-/*
-Print language tag out
-Return nothing if something wrong
-This function should be called in the loop
-*/
+/* Print language tag out
+ * Return nothing if something wrong
+ * This function should be called in the loop
+ * language direction support added since v0.2
+ */
 function theLangTag($p) {
+	global $lang_direction;
 	$tag = mlGetLangTag($p);
 	if(NULL == $tag) return;
 	$s = $tag->meta_value;
 	if(NULL == $s) return;
-	echo "lang=\"$s\" xml:lang=\"$s\"";
+	$r = "lang=\"$s\" xml:lang=\"$s\"";
+	//add language direction support here
+	if(array_key_exists($s,(array)$lang_direction))
+		$r .= " dir=\"$lang_direction[$s]\"";
+	echo $r;
 }
 
 //Check if the post have language tag
@@ -59,9 +65,7 @@ function mlGetLangTag($p) {
 	return $meta;
 }
 
-/*
-Get language tag from DB by meta ID
-*/
+//Get language tag from DB by meta ID
 function mlGetLangTagByID($tagID) {
 	$tag = get_post_meta_by_id($tagID);
 	//have a language tag in DB
@@ -70,9 +74,7 @@ function mlGetLangTagByID($tagID) {
 	return NULL;
 }
 
-/*
-Add a language tag into post_meta
-*/
+//add a language tag into post_meta
 function mlAddMeta($p, $value) {
 	global $wpdb;
 	$result = $wpdb->query("INSERT INTO $wpdb->postmeta 
@@ -81,9 +83,7 @@ function mlAddMeta($p, $value) {
 	return $wpdb->insert_id;
 }
 
-/*
-Add input box in post/edit page
-*/
+//add input box in post/edit page
 function mlAddInputPan() {
 	global $post_ID, $languages;
 
@@ -114,22 +114,22 @@ function mlAddInputPan() {
 }
 
 /*
-Change post language tag as follow:
-Selecte button pushed
-	|
-already have lang tag($mlLangTagID!=0)
-	|__N__ Language selected
-   Y|				|__N__ Return
-	|			   Y|
-	|		Add language tag
-language selected
-	|__N__ Delete language tag
-   Y|
-No change of language tag
-	|__N__ Update language tag
-   Y|
- Return
-*/
+ *Change post language tag as follow:
+ *Selecte button pushed
+ *	|
+ *already have lang tag($mlLangTagID!=0)
+ *	|__N__ Language selected
+ * Y|				|__N__ Return
+ *	|			   Y|
+ *	|		Add language tag
+ *language selected
+ *	|__N__ Delete language tag
+ * Y|
+ *No change of language tag
+ *	|__N__ Update language tag
+ * Y|
+ * Return
+ */
 function mlChangePostTag() {	
 	global $wpdb, $post_ID;
 	
@@ -157,19 +157,37 @@ function mlChangePostTag() {
 	}
 }
 
+//insert CSS style
+function mlAddStyle() {
+	global $languages;
+	echo '<!--multilingual-posts-->'."\n";
+	echo '<style type="text/css">'."\n";
+	$url = get_option('siteurl');
+	foreach ( $languages as $t => $lang) {
+		echo "div.post[lang=\"$t\"] { background-image: url($url/wp-content/plugins/multilingual-posts/images/post-$t.gif) bottom right no-repeat; }"."\n";
+	}
+	echo "</style>"."\n";
+} 
 
+//for the future
 function getTranslation($postID) {
 
 }
 
 //Display language tag list in sidebar box
+//@since 0.1
 add_action('dbx_post_sidebar','mlAddInputPan');
 add_action('dbx_page_sidebar','mlAddInputPan');
 
 // Save changes to language tag
+//@since 0.1
 add_action('publish_post', 'mlChangePostTag');
 add_action('edit_post', 'mlChangePostTag');
 add_action('save_post', 'mlChangePostTag');
 add_action('wp_insert_post', 'mlChangePostTag');
+
+//Add css style into page
+//@since 0.2
+add_action('wp_head','mlAddStyle');
 
 ?>
