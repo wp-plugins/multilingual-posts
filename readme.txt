@@ -29,7 +29,7 @@ To use this plugin, you have to upload the plugin file, active it and edit your 
 	Simply uncomment the row that contains language you will use.
 3. if you need to specify language directions, define it in the bottom of "languages.php"
 4. Edit your wordpress theme.
-	<!--***NOTICE: the code below is modified for battery render in webpages. please replace "&gt;" with > and "&lt;" with "<" when insert to your wp theme***-->
+	<!--***NOTICE: the code below is modified for battery render in webpages. please replace "&amp;gt;" with &gt; and "&amp;lt;" with "&gt;" when insert to your wordpress theme***-->
 	In the loop(inside a while(have_posts()) loop), find the top html container which is normally a div block and add a function call before the "&gt;" mark:
 	&lt;?php /* Support for multilingual posts plugin*/ if(function_exists('theLangTag')) theLangTag($post->ID);?&gt;
 	It should look like this(wp2.2 default theme):
@@ -39,7 +39,7 @@ To use this plugin, you have to upload the plugin file, active it and edit your 
 == Revisions ==
 
 2007-12-18,
-0.2: Now you can difine language direction.
+0.2: Now you can define language direction.
 	 Insert CSS style into page head automatically to support pretty printing.
 	 readme file updated for new feature and fixed a error
 --------------------------------------------------------------------------------
