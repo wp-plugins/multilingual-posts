@@ -164,7 +164,7 @@ function mlAddStyle() {
 	echo '<style type="text/css">'."\n";
 	$url = get_option('siteurl');
 	foreach ( $languages as $t => $lang) {
-		echo "div.post[lang=\"$t\"] { background-image: url($url/wp-content/plugins/multilingual-posts/images/post-$t.gif) bottom right no-repeat; }"."\n";
+		echo "div.post[lang=\"$t\"] { background: url($url/wp-content/plugins/multilingual-posts/images/post-$t.gif) bottom right no-repeat; }"."\n";
 	}
 	echo "</style>"."\n";
 } 
