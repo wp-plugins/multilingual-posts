@@ -38,7 +38,9 @@ function theLangTag($p) {
 	if(NULL == $tag) return;
 	$s = $tag->meta_value;
 	if(NULL == $s) return;
-	$r = "lang=\"$s\" xml:lang=\"$s\"";
+	//delete lang="XX" attribute, for XHTML1.1 validation
+	//$r = "lang=\"$s\" xml:lang=\"$s\"";
+	$r = "xml:lang=\"$s\"";
 	//add language direction support here
 	if(array_key_exists($s,(array)$lang_direction))
 		$r .= " dir=\"$lang_direction[$s]\"";
