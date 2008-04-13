@@ -3,7 +3,7 @@
  *Plugin Name: Multilingual posts
  *Plugin URI: http://www.imluke.net/ideas/mlpost.htm
  *Description: Add standard compliant language tag to post and page
- *Version: 0.2
+ *Version: 0.3pre
  *Author: imluke
  *Author URI: http://www.imluke.net
  */
@@ -166,7 +166,7 @@ function mlAddStyle() {
 	echo '<style type="text/css">'."\n";
 	$url = get_option('siteurl');
 	foreach ( $languages as $t => $lang) {
-		echo "div.post[lang=\"$t\"] { background: url($url/wp-content/plugins/multilingual-posts/images/post-$t.gif) bottom right no-repeat; }"."\n";
+		echo "div.post[lang=\"$t\"] { background: transparent url($url/wp-content/plugins/multilingual-posts/images/post-$t.gif) bottom right no-repeat; }"."\n";
 	}
 	echo "</style>"."\n";
 } 
