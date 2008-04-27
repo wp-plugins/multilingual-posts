@@ -95,6 +95,7 @@ function mlAddInputPan() {
 	
 	echo '<fieldset id="languagediv" class="dbx-box"><h3 class="dbx-handle">Language</h3>
 <div class="dbx-content">
+	<p>Select the language of your post:</p>
 	<select name="post_language" id="post_language">';
 	$selected = false;
 	foreach( $languages as $t => $lang) {
@@ -166,7 +167,7 @@ function mlAddStyle() {
 	echo '<style type="text/css">'."\n";
 	$url = get_option('siteurl');
 	foreach ( $languages as $t => $lang) {
-		echo "div.post[lang=\"$t\"] { background: transparent url($url/wp-content/plugins/multilingual-posts/images/post-$t.gif) bottom right no-repeat; }"."\n";
+		echo "div.post[xml:lang=\"$t\"] { background: transparent url($url/wp-content/plugins/multilingual-posts/images/post-$t.gif) bottom right no-repeat; }"."\n";
 	}
 	echo "</style>"."\n";
 } 
@@ -176,20 +177,54 @@ function getTranslation($postID) {
 
 }
 
-//Display language tag list in sidebar box
-//@since 0.1
-add_action('dbx_post_sidebar','mlAddInputPan');
-add_action('dbx_page_sidebar','mlAddInputPan');
+//add select box in meta_box which is added in wp2.5
+function ml_Inputpan() {
+	global $post_ID, $languages;
+
+	$tag = mlGetLangTag($post_ID);//get meta data from DB;
+	//get language tag from fetched result;
+	if ($tag != NULL) $tagVal = $tag->meta_value;
+	echo '<p>Select the language of your post:</p>
+	<select name="post_language" id="post_language">';
+	$selected = false;
+	foreach( $languages as $t => $lang) {
+		//Selected language tag
+		if ($tagVal == $t) {
+			$s =" selected=\"selected\"";
+			$selected = true;
+		} else {
+			$s = "";
+		}
+		echo "\n\t\t<option value=\"$t\"" . $s . ">$lang</option>";
+	}
+	//Add none at last
+	echo "\n\t\t<option value=\"none\"" . ($selected ? "" : " selected=\"selected\"") . ">None</option>		
+	</select>\n";
+}
+
+//select which kind of box to add
+function ml_add_inputpan() {
+	if(function_exists('add_meta_box')) {
+		add_meta_box('langtag','Language tag', 'ml_Inputpan','post','advanced');
+		add_meta_box('langtag','Language tag', 'ml_Inputpan','page','advanced');
+	} else {
+		add_action('dbx_post_sidebar','mlAddInputPan');
+		add_action('dbx_page_sidebar','mlAddInputPan');
+	}
+}
+
+
+
+add_action('admin_menu', 'ml_add_inputpan');
+
 
 // Save changes to language tag
-//@since 0.1
-add_action('publish_post', 'mlChangePostTag');
-add_action('edit_post', 'mlChangePostTag');
+//add_action('publish_post', 'mlChangePostTag');
+//add_action('edit_post', 'mlChangePostTag');
 add_action('save_post', 'mlChangePostTag');
-add_action('wp_insert_post', 'mlChangePostTag');
+//add_action('wp_insert_post', 'mlChangePostTag');
 
 //Add css style into page
-//@since 0.2
 add_action('wp_head','mlAddStyle');
 
 ?>
